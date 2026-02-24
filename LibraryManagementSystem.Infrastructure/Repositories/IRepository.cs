@@ -10,9 +10,9 @@ namespace LibraryManagementSystem.Infrastructure.Repositories
     {
         Task<T?> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
-        IQueryable<T> SearchAsync();
+        IQueryable<T> Search();
         Task<T> AddAsync(T entity);
-        void UpdateAsunc(T entity);
+        void UpdateAsync(T entity);
         void DeleteAsync(T entity); 
     }
 }

@@ -1,0 +1,133 @@
+﻿@model IEnumerable<LibraryManagementSystem.Presentation.Modules.Books.ViewModels.BookListVM>
+@using LibraryManagementSystem.Domain.Enums
+
+@{
+    ViewData["Title"] = "Book Catalog";
+}
+
+<link rel="stylesheet" href="~/css/book-list.css" />
+
+<div class="list-page-container">
+    <div class="list-card shadow-sm">
+
+        <div class="list-header">
+            <div>
+                <h2><i class="bi bi-collection-play me-2 text-primary"></i> Library Books Catalog</h2>
+                <p class="text-muted">Manage and overview all books currently in the system.</p>
+            </div>
+            <a asp-action="Create" class="btn-add-new">
+                <i class="bi bi-plus-lg"></i> Add New Book
+            </a>
+        </div>
+
+        <div class="filter-section">
+            <form asp-action="Index" method="get" class="filter-row">
+
+                <div class="filter-group">
+                    <label for="Title">Title</label>
+                    <input type="text" id="Title" name="Title" class="filter-input" placeholder="Search by title..." value="@ViewData["CurrentTitleFilter"]" />
+                </div>
+
+                <div class="filter-group">
+                    <label for="ISBN">ISBN</label>
+                    <input type="text" id="ISBN" name="ISBN" class="filter-input" placeholder="Search by ISBN..." value="@ViewData["CurrentIsbnFilter"]" />
+                </div>
+
+                <div class="filter-group">
+                    <label for="Genre">Genre</label>
+                    <select id="Genre" name="Genre" class="filter-select">
+                        <option value="">-- All Genres --</option>
+
+                        @foreach (var genre in Enum.GetValues(typeof(Genre)))
+                        {
+                            // Check the URL to see if this genre is the one currently being searched for
+                            var isSelected = Context.Request.Query["Genre"] == ((int)genre).ToString();
+
+                            if (isSelected)
+                            {
+                                <option value="@genre.ToString()" selected="selected">@genre.ToString()</option>
+                            }
+                            else
+                            {
+                                <option value="@genre.ToString()">@genre.ToString()</option>
+                            }
+                        }
+
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="submit" class="btn-filter"><i class="bi bi-funnel"></i> Apply Filter</button>
+                    <a asp-action="Index" class="btn-clear">Clear</a>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Title)</th>
+                        <th>@Html.DisplayNameFor(model => model.ISBN)</th>
+                        <th>@Html.DisplayNameFor(model => model.Genre)</th>
+                        <th>Year & Pages</th>
+                        <th>Status</th>
+                        <th><div> Added </div>
+                            <div class="text-lighter">Updated</div>
+                        </th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold text-main">@item.Title</td>
+                            <td class="text-muted">@item.ISBN</td>
+                            <td>
+                                <span class="badge badge-genre">@item.Genre</span>
+                            </td>
+                            <td class="text-muted small">
+                                @item.PublicationYear &bull; @item.Pages p.
+                            </td>
+                            <td>
+                                @if (item.IsAvailable)
+                                {
+                                    <span class="badge badge-available"><i class="bi bi-check-circle"></i> Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-unavailable"><i class="bi bi-x-circle"></i> On Loan</span>
+                                }
+                            </td>
+                            <td class="text-muted small">
+                                <div><i class="bi bi-calendar-plus"></i> @item.AddedDate.ToShortDateString()</div>
+                                @if (item.LastUpdated.HasValue)
+                                {
+                                    <div class="text-lighter"><i class="bi bi-arrow-clockwise"></i> @item.LastUpdated.Value.ToShortDateString()</div>
+                                }
+                                else
+                                {
+                                    <div class="text-lighter fst-italic">Never updated</div>
+                                }
+                            </td>
+                            <td class="action-cells">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn-action btn-edit" title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn-action btn-details" title="Details">
+                                    <i class="bi bi-info-circle"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn-action btn-delete" title="Delete">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

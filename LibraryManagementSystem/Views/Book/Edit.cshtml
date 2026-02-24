@@ -1,0 +1,81 @@
+﻿@model LibraryManagementSystem.Presentation.Modules.Books.ViewModels.BookEditVM
+@using LibraryManagementSystem.Domain.Enums
+@{
+    ViewData["Title"] = "Add New Book";
+}
+
+<link rel="stylesheet" href="~/css/book-form.css" />
+
+<div class="form-page-container">
+    <div class="form-card shadow-lg">
+
+        <div class="form-header">
+            <div class="header-icon">
+                <i class="bi bi-journal-plus"></i>
+            </div>
+            <h2>Register New Book</h2>
+            <p>Select the category and enter book details below.</p>
+        </div>
+
+        <form asp-action="Edit" class="modern-form">
+            <div asp-validation-summary="ModelOnly" class="error-summary"></div>
+            <input asp-for="Id" type="hidden" />
+            
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" placeholder="e.g., The Midnight Library" />
+                    <span asp-validation-for="Title" class="validation-msg"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="ISBN"></label>
+                    <input asp-for="ISBN" placeholder="978-3-16-148410-0" />
+                    <span asp-validation-for="ISBN" class="validation-msg"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Genre"></label>
+                    <select asp-for="Genre"
+                            asp-items="Html.GetEnumSelectList<Genre>()"
+                            class="form-select-custom">
+                        <option selected="selected" value="">-- Select Genre --</option>
+                    </select>
+                    <span asp-validation-for="Genre" class="validation-msg"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="PublicationYear"></label>
+                    <input asp-for="PublicationYear" type="number" min="1000" max="2100" />
+                    <span asp-validation-for="PublicationYear" class="validation-msg"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Pages"></label>
+                    <input asp-for="Pages" type="number" />
+                    <span asp-validation-for="Pages" class="validation-msg"></span>
+                </div>
+            </div>
+            <div class="form-group checkbox-group">
+                <label class="switch">
+                    <input asp-for="IsAvailable" type="checkbox" />
+                    <span class="slider round"></span>
+                </label>
+                <span class="checkbox-label">Available for Borrowing</span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Add to Collection</button>
+                <a asp-action="Index" class="btn-back">Cancel and Return</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

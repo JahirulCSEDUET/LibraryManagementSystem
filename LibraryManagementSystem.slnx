@@ -2,5 +2,6 @@
   <Project Path="LibraryManagementSystem.Business/LibraryManagementSystem.Business.csproj" />
   <Project Path="LibraryManagementSystem.Domain/LibraryManagementSystem.Domain.csproj" />
   <Project Path="LibraryManagementSystem.Infrastructure/LibraryManagementSystem.Infrastructure.csproj" />
+  <Project Path="LibraryManagementSystem.Presentation/LibraryManagementSystem.Presentation.csproj" Id="4e4b1dc7-cbc5-4a75-8c61-6e14433aec46" />
   <Project Path="LibraryManagementSystem/LibraryManagementSystem.csproj" />
 </Solution>

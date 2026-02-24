@@ -37,12 +37,12 @@ namespace LibraryManagementSystem.Infrastructure.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public  IQueryable<T> SearchAsync()
+        public  IQueryable<T> Search()
         {
             return _dbSet.AsQueryable().AsNoTracking();
         }
 
-        public void UpdateAsunc(T entity)
+        public void UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
         }

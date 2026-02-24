@@ -10,9 +10,9 @@ namespace LibraryManagementSystem.Business.Modulos
     {
         Task<Book?> GetByIdAsync(int id);
         Task<IEnumerable<Book>> GetAllAsync();
-        Task<IReadOnlyList<Book>> SearchAsync(string? searchTerm = null, Genre? genre = null);
+        Task<IReadOnlyList<Book>> SearchAsync(string? title = null, string? isbn = null, string? genre = null);
         Task<Book> AddAsync(Book book);
-        void UpdateAsunc(Book book);
+        Task UpdateAsync(Book book);
         Task<bool> DeleteAsync(Book book);
     }
 }
