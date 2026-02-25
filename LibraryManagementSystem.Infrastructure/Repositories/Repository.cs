@@ -1,9 +1,5 @@
-﻿using LibraryManagementSystem.Domain.Enums;
-using LibraryManagementSystem.Infrastructure.Data;
+﻿using LibraryManagementSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LibraryManagementSystem.Infrastructure.Repositories
 {

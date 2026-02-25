@@ -1,0 +1,227 @@
+:root {
+    --primary-blue: #2563eb;
+    --dark-slate: #1e293b;
+    --text-muted: #64748b;
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.error-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-gradient);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    padding: 20px;
+}
+
+.error-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    max-width: 550px;
+    width: 100%;
+    text-align: center;
+}
+
+.error-badge {
+    display: inline-block;
+    background: #eff6ff;
+    color: var(--primary-blue);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.error-title {
+    font-size: 2.5rem;
+    color: var(--dark-slate);
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.error-description {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* The dynamic ex.Message styling */
+.message-box {
+    background: #f1f5f9;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: left;
+    margin-bottom: 2rem;
+    border: 1px solid #e2e8f0;
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+}
+
+.label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+}
+
+.message-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    color: #334155;
+    margin: 0;
+    word-break: break-all;
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--dark-slate);
+    color: white;
+}
+
+    .btn-primary:hover {
+        background: #0f172a;
+        transform: translateY(-2px);
+    }
+
+.btn-secondary {
+    background: white;
+    color: var(--dark-slate);
+    border: 1px solid #e2e8f0;
+}
+
+    .btn-secondary:hover {
+        background: #f8fafc;
+    }
+
+.error-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+    .error-footer a {
+        color: var(--primary-blue);
+        text-decoration: none;
+    }
+
+/* Responsive */
+@media (max-width: 480px) {
+    .button-group {
+        flex-direction: column;
+    }
+
+    .error-title {
+        font-size: 2rem;
+    }
+}
+
+.error-badge.warning {
+    background: #fffbeb; /* Light Amber */
+    color: #b45309; /* Dark Amber */
+}
+
+/* Warning Dot for the message box */
+.warning-dot {
+    background: #f59e0b !important;
+}
+
+/* Optional: Add a subtle 'Lock' icon feel to the card */
+.error-card::before {
+    content: "🔒";
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+/* Generic Error Variant */
+.error-badge.generic {
+    background: #f5f3ff; /* Light Indigo */
+    color: #4f46e5; /* Indigo */
+}
+
+.generic-dot {
+    background: #6366f1 !important;
+}
+
+/* Optional: Add a subtle 'Help' icon for generic errors */
+.error-card::before {
+    content: "⚙️";
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+/* Helper class for empty message states */
+.italic {
+    font-style: italic;
+    color: #94a3b8;
+}
+/* Server Error / Critical Variant */
+.error-badge.critical {
+    background: #fef2f2; /* Very light red */
+    color: #dc2626; /* Bright red */
+}
+
+.critical-box {
+    background: #fff5f5 !important;
+    border: 1px solid #fecaca !important;
+}
+
+.critical-dot {
+    background: #ef4444 !important;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+.error-path {
+    font-size: 0.75rem;
+    color: #991b1b;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed #fecaca;
+    font-family: monospace;
+}
+
+/* Optional: Icon for Server Error */
+.error-card::before {
+    content: "⚠️";
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 1rem;
+}

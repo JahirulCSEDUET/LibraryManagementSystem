@@ -46,12 +46,15 @@ namespace LibraryManagementSystem.Controllers
             
         }
         public async Task<IActionResult> Edit(int id) {
-            var book = await _bookViewModelProvider.GetByIdAsync(id);
-            if (book == null)
+            try
+            {
+                var book = await _bookViewModelProvider.GetByIdAsync(id);
+                return View(book);
+            }
+            catch(BookNotFoundException )
             {
                 return NotFound();
             }
-            return View(book);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(BookEditVM bookEditVM) {
@@ -74,9 +77,9 @@ namespace LibraryManagementSystem.Controllers
                 ModelState.AddModelError(nameof(BookListVM.PublicationYear), ex.Message);
                 return View(bookEditVM);
             }
-            catch (BookNotFoundException ex)
+            catch (BookNotFoundException )
             {
-                return NotFound(ex.Message);
+                return NotFound();
             }            
         }
         public async Task<IActionResult> Details(int id)
@@ -86,9 +89,9 @@ namespace LibraryManagementSystem.Controllers
                 var book = await _bookViewModelProvider.GetByIdAsync(id);
                 return View(book);
             }
-            catch(BookNotFoundException ex)
+            catch(BookNotFoundException )
             {
-                return NotFound(ex.Message);
+                return NotFound();
             }
         }
         public async Task<IActionResult> Delete(int id)
@@ -98,9 +101,9 @@ namespace LibraryManagementSystem.Controllers
                 var book = await _bookViewModelProvider.GetByIdAsync(id);
                 return View(book);
             }
-            catch (BookNotFoundException ex)
+            catch (BookNotFoundException )
             {
-                return NotFound(ex.Message);
+                return NotFound();
             }
         }
         [HttpPost]
@@ -112,9 +115,9 @@ namespace LibraryManagementSystem.Controllers
                 TempData["SuccessMessage"] = "The book was successfully removed from the library catalog.";
                 return RedirectToAction(nameof(Index));
             }
-            catch (BookNotFoundException ex)
+            catch (BookNotFoundException )
             {
-                return NotFound(ex.Message);
+                return NotFound();
             }
         }
     }

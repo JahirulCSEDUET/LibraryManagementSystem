@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Error - Something Went Wrong";
+    var errorMessage = ViewBag.ErrorMessage as string;
+    var statusCode = Context.Response.StatusCode;
+}
+
+<div class="error-container">
+    <div class="error-card">
+        <div class="error-badge generic">Status Code: @statusCode</div>
+
+        <h1 class="error-title">Unexpected Error</h1>
+        <p class="error-description">
+            The library system encountered an unexpected condition that prevented it from fulfilling your request.
+        </p>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="message-box">
+                <div class="message-header">
+                    <span class="dot generic-dot"></span>
+                    <span class="label">Response Message</span>
+                </div>
+                <p class="message-text">@errorMessage</p>
+            </div>
+        }
+        else
+        {
+            <div class="message-box">
+                <div class="message-header">
+                    <span class="dot generic-dot"></span>
+                    <span class="label">System Note</span>
+                </div>
+                <p class="message-text italic">No specific error details were provided by the server.</p>
+            </div>
+        }
+
+        <div class="button-group">
+            <a href="/" class="btn btn-primary">Go to Dashboard</a>
+            <button onclick="location.reload()" class="btn btn-secondary">Try Again</button>
+        </div>
+
+        <div class="error-footer">
+            Reference ID: <strong>@Guid.NewGuid().ToString().Substring(0, 8)</strong>
+        </div>
+    </div>
+</div>

@@ -14,7 +14,7 @@ namespace LibraryManagementSystem.Infrastructure.Repositories.Books
             _context = context;
         }
 
-        public async Task<bool> ExistByISBN(string isbn, int? excludedId = null)
+        public async Task<bool> IsIsbnUniqueAsync(string isbn, int? excludedId = null)
         {
             if (string.IsNullOrWhiteSpace(isbn))
             {
@@ -25,7 +25,7 @@ namespace LibraryManagementSystem.Infrastructure.Repositories.Books
             {
                 query = query.Where(c => c.Id != excludedId.Value);
             }
-            return await query.AnyAsync();
+            return await query.AsNoTracking().AnyAsync();
         }
 
     }

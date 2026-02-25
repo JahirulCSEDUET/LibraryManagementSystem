@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "500 - Internal Server Error";
+    var errorMessage = ViewBag.ErrorMessage as string;
+    var errorPath = ViewBag.Route as string;
+}
+
+
+<div class="error-container">
+    <div class="error-card">
+        <div class="error-badge critical">Server Error</div>
+
+        <h1 class="error-title">Something went wrong</h1>
+        <p class="error-description">
+            The server encountered an internal error and was unable to complete your request. Our technical team has been notified.
+        </p>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="message-box critical-box">
+                <div class="message-header">
+                    <span class="dot critical-dot"></span>
+                    <span class="label">Exception Detail</span>
+                </div>
+                <p class="message-text">@errorMessage</p>
+                @if (!string.IsNullOrEmpty(errorPath))
+                {
+                    <p class="error-path">Path: @errorPath</p>
+                }
+            </div>
+        }
+
+        <div class="button-group">
+            <a href="/" class="btn btn-primary">Return to Dashboard</a>
+            <button onclick="location.reload()" class="btn btn-secondary">Reload Page</button>
+        </div>
+
+        <div class="error-footer">
+            If this persists, please provide <strong>Ticket ID: #LIB-@DateTime.Now.Ticks.ToString().Substring(10)</strong>
+        </div>
+    </div>
+</div>

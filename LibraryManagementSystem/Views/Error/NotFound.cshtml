@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "404 - Resource Not Found";
+    var errorMessage = ViewBag.ErrorMessage as string;
+}
+
+
+<div class="error-container">
+    <div class="error-card">
+        <div class="error-badge">Error 404</div>
+
+        <h1 class="error-title">Page not found</h1>
+        <p class="error-description">
+            The resource you're looking for might have been moved, deleted, or perhaps it never existed.
+        </p>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="message-box">
+                <div class="message-header">
+                    <span class="dot"></span>
+                    <span class="label">System Detail</span>
+                </div>
+                <p class="message-text">@errorMessage</p>
+            </div>
+        }
+
+        <div class="button-group">
+            <a href="/" class="btn btn-primary">Return Home</a>
+            <button onclick="history.back()" class="btn btn-secondary">Go Back</button>
+        </div>
+
+        <div class="error-footer">
+            Need help? <a href="/support">Contact Library Support</a>
+        </div>
+    </div>
+</div>

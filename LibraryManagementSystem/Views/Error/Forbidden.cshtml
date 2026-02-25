@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "403 - Access Denied";
+    var errorMessage = ViewBag.ErrorMessage as string;
+}
+
+
+<div class="error-container">
+    <div class="error-card">
+        <div class="error-badge warning">Access Denied</div>
+
+        <h1 class="error-title">Forbidden</h1>
+        <p class="error-description">
+            You don't have the necessary permissions to access this section of the library system.
+            Please contact your administrator if you believe this is an error.
+        </p>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="message-box">
+                <div class="message-header">
+                    <span class="dot warning-dot"></span>
+                    <span class="label">Security Detail</span>
+                </div>
+                <p class="message-text">@errorMessage</p>
+            </div>
+        }
+
+        <div class="button-group">
+            <a href="/" class="btn btn-primary">Return to Dashboard</a>
+            <a href="/Identity/Account/Login" class="btn btn-secondary">Switch Account</a>
+        </div>
+
+        <div class="error-footer">
+            Logged in as: <strong>@User.Identity?.Name</strong>
+        </div>
+    </div>
+</div>
