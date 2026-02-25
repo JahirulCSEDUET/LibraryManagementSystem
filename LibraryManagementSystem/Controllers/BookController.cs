@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Infrastructure.Repositories.Books;
+﻿using LibraryManagementSystem.Business.Exceptions;
+using LibraryManagementSystem.Infrastructure.Repositories.Books;
 using LibraryManagementSystem.Presentation.Modules.Books;
 using LibraryManagementSystem.Presentation.Modules.Books.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,6 @@ namespace LibraryManagementSystem.Controllers
         }
         public IActionResult Create()
         {
-
             return View();
         }
         [HttpPost]
@@ -32,8 +32,17 @@ namespace LibraryManagementSystem.Controllers
             {
                 return View(bookCreateVM);
             }
-            await _bookViewModelProvider.AddAsync(bookCreateVM);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _bookViewModelProvider.AddAsync(bookCreateVM);
+                TempData["SuccessMessage"] = "The book was successfully added.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DuplicateIsbnException ex)
+            {
+                ModelState.AddModelError(nameof(BookCreateVM.ISBN), ex.Message);
+                return View(bookCreateVM);
+            }
             
         }
         public async Task<IActionResult> Edit(int id) {
@@ -46,39 +55,67 @@ namespace LibraryManagementSystem.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Edit(BookEditVM bookEditVM) {
-            if (!ModelState.IsValid) { 
+            if (!ModelState.IsValid) {
                 return View(bookEditVM);
             }
-            await _bookViewModelProvider.UpdateAsync(bookEditVM);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _bookViewModelProvider.UpdateAsync(bookEditVM);
+                TempData["SuccessMessage"] = "The book was successfully edited.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DuplicateIsbnException ex)
+            {
+                ModelState.AddModelError(nameof(BookEditVM.ISBN), ex.Message);
+                return View(bookEditVM);
+            }
+            catch (InvalidPublicationYearException ex)
+            {
+                ModelState.AddModelError(nameof(BookListVM.PublicationYear), ex.Message);
+                return View(bookEditVM);
+            }
+            catch (BookNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }            
         }
         public async Task<IActionResult> Details(int id)
         {
-            var book = await _bookViewModelProvider.GetByIdAsync(id);
-            if (book == null)
+            try
             {
-                return NotFound();
+                var book = await _bookViewModelProvider.GetByIdAsync(id);
+                return View(book);
             }
-            return View(book);
+            catch(BookNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
         public async Task<IActionResult> Delete(int id)
         {
-            var book = await _bookViewModelProvider.GetByIdAsync(id);
-            if(book == null)
+            try
             {
-                return NotFound();
+                var book = await _bookViewModelProvider.GetByIdAsync(id);
+                return View(book);
             }
-            return View(book);
+            catch (BookNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var res = await _bookViewModelProvider.DeleteAsync(id);
-            if (!res)
-            { 
-                return NotFound();
+            try
+            {
+                var res = await _bookViewModelProvider.DeleteAsync(id);
+                TempData["SuccessMessage"] = "The book was successfully removed from the library catalog.";
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            catch (BookNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

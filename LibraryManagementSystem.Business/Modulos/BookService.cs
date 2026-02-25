@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Domain.Entities;
+﻿using LibraryManagementSystem.Business.Exceptions;
+using LibraryManagementSystem.Domain.Entities;
 using LibraryManagementSystem.Domain.Enums;
 using LibraryManagementSystem.Infrastructure.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,16 @@ namespace LibraryManagementSystem.Business.Modulos
 
         public async Task<Book> AddAsync(Book book)
         {
+            book.AddedDate = DateTime.Now;
+            bool exist = await _unitOfwork.BookRepository.ExistByISBN(book.ISBN);
+            if (exist) {
+                throw new DuplicateIsbnException($"{book.ISBN} is already exist!!");
+            }
+            if(book.PublicationYear<1500 || book.PublicationYear > DateTime.Now.Year + 5)
+            {
+                throw new InvalidPublicationYearException($"Publication year must be beetween 1500 to {DateTime.Now.Year + 5}");
+            }
+            
             await _unitOfwork.BookRepository.AddAsync(book);
             await _unitOfwork.SaveChangesAsync();
             return book;
@@ -25,6 +36,10 @@ namespace LibraryManagementSystem.Business.Modulos
         public async Task<bool> DeleteAsync(Book book)
         {
             _unitOfwork.BookRepository.DeleteAsync(book);
+            if (book == null)
+            {
+                throw new BookNotFoundException("Book is not found!");
+            }
             return await _unitOfwork.SaveChangesAsync()>0;
         }
 
@@ -36,7 +51,12 @@ namespace LibraryManagementSystem.Business.Modulos
 
         public async Task<Book?> GetByIdAsync(int id)
         {
-            return await _unitOfwork.BookRepository.GetByIdAsync(id);
+            var book = await _unitOfwork.BookRepository.GetByIdAsync(id);
+            if (book == null)
+            {
+                throw new BookNotFoundException("Book is not found!");
+            }
+            return book;
         }
 
         public async Task<IReadOnlyList<Book>> SearchAsync(string? title = null, string? isbn=null, string? genre = null)
@@ -59,6 +79,11 @@ namespace LibraryManagementSystem.Business.Modulos
 
         public async Task UpdateAsync(Book book)
         {
+            var books = await _unitOfwork.BookRepository.GetByIdAsync(book.Id);
+            if (books == null)
+            {
+                throw new BookNotFoundException("Book is not found!");
+            }
             _unitOfwork.BookRepository.UpdateAsync(book);
             await _unitOfwork.SaveChangesAsync();
         }

@@ -13,6 +13,6 @@ namespace LibraryManagementSystem.Infrastructure.Repositories
         IQueryable<T> Search();
         Task<T> AddAsync(T entity);
         void UpdateAsync(T entity);
-        void DeleteAsync(T entity); 
+        void DeleteAsync(T entity);
     }
 }

@@ -7,5 +7,6 @@ namespace LibraryManagementSystem.Infrastructure.Repositories.Books
 {
     public interface IBookRepository:IRepository<Book>
     {
+        Task<bool> ExistByISBN(string isbn, int? excludedId =null);
     }
 }
