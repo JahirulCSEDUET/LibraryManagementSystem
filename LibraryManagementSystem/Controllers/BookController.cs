@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.Controllers
             var book = await _bookViewModelProvider.GetByIdAsync(id);
             if (book == null)
             {
-                return View("NotFound");
+                return NotFound();
             }
             return View(book);
         }
@@ -50,6 +50,34 @@ namespace LibraryManagementSystem.Controllers
                 return View(bookEditVM);
             }
             await _bookViewModelProvider.UpdateAsync(bookEditVM);
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Details(int id)
+        {
+            var book = await _bookViewModelProvider.GetByIdAsync(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return View(book);
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            var book = await _bookViewModelProvider.GetByIdAsync(id);
+            if(book == null)
+            {
+                return NotFound();
+            }
+            return View(book);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var res = await _bookViewModelProvider.DeleteAsync(id);
+            if (!res)
+            { 
+                return NotFound();
+            }
             return RedirectToAction(nameof(Index));
         }
     }

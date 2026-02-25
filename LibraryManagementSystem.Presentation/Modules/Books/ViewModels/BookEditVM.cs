@@ -22,5 +22,6 @@ namespace LibraryManagementSystem.Presentation.Modules.Books.ViewModels
         public Genre Genre { get; set; }
         public bool IsAvailable { get; set; }
         public DateTime? LastUpdated { get; set; } = DateTime.UtcNow;
+        public DateTime AddedDate {  get; set; }
     }
 }

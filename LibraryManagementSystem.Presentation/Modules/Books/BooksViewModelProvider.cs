@@ -23,11 +23,11 @@ namespace LibraryManagementSystem.Presentation.Modules.Books
                 Title = book.Title,
                 ISBN = book.ISBN,
                 PublicationYear =book.PublicationYear,
-                AddedDate = DateTime.UtcNow,
+                AddedDate = DateTime.Now,
                 Genre = book.Genre,
                 IsAvailable = book.IsAvailable,
                 Pages = book.Pages,
-                LastUpdated = DateTime.UtcNow,
+                LastUpdated = DateTime.Now,
             };
             await _bookService.AddAsync(books);
             return books;
@@ -36,7 +36,7 @@ namespace LibraryManagementSystem.Presentation.Modules.Books
         public async Task<bool> DeleteAsync(int id)
         {
             var book = await _bookService.GetByIdAsync(id);
-            if (book != null) {
+            if (book == null) {
                 return false;
             }
             return await _bookService.DeleteAsync(book);
@@ -67,7 +67,7 @@ namespace LibraryManagementSystem.Presentation.Modules.Books
         public async Task<BookEditVM?> GetByIdAsync(int id)
         {
             var book = await _bookService.GetByIdAsync(id);
-            
+            if (book == null) { return null; }
             var books = new BookEditVM
             {
                 Id = book.Id,
@@ -77,7 +77,8 @@ namespace LibraryManagementSystem.Presentation.Modules.Books
                 Genre = book.Genre,
                 IsAvailable = book.IsAvailable,
                 Pages = book.Pages,
-                LastUpdated = book.LastUpdated
+                LastUpdated = book.LastUpdated,
+                AddedDate = book.AddedDate
             };
             return books;
         }
@@ -106,11 +107,12 @@ namespace LibraryManagementSystem.Presentation.Modules.Books
             book.Id = bookVM.Id;
             book.Title = bookVM.Title;
             book.ISBN = bookVM.ISBN;
-            book.LastUpdated = DateTime.UtcNow;
+            book.LastUpdated = DateTime.Now;
             book.Genre = bookVM.Genre;
             book.IsAvailable = bookVM.IsAvailable;
             book.Pages = bookVM.Pages;
             book.PublicationYear = bookVM.PublicationYear;
+            book.AddedDate = bookVM.AddedDate;
             await _bookService.UpdateAsync(book);
 
         }
